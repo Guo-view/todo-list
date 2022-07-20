@@ -15,7 +15,8 @@
         body {
             background-color: coral;
         }
-        .big-warpper{
+
+        .big-warpper {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -27,30 +28,92 @@
             border-radius: 30px;
             padding: 30px;
         }
-        img{
+
+        img {
             width: 80px;
             height: 60px;
         }
-        .imgbox{
+
+        .imgbox {
             height: 100px;
             line-height: 100px;
             text-align: center;
             display: flex;
             justify-content: space-around;
         }
-        .tudoss{
+
+        .tudoss {
             height: 45px;
             line-height: 45px;
             background-color: darkgoldenrod;
             color: #fff;
             width: 100px;
             border-radius: 10px;
+            transform: skewY(5deg);
+            border-bottom-right-radius: 30px;
         }
-        .foot-box{
+
+        .foot-box {
+            width: 300px;
+            height: 40px;
             position: absolute;
             bottom: 50px;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
+        }
+
+        .textinp {
+            width: 270px;
+            height: 40px;
+            border: 0;
+            border-bottom: 5px dashed rgb(216, 140, 18);
+            outline: none;
+        }
+
+        .add {
+            width: 50px;
+            height: 30px;
+            background-color: #fff;
+            color: #000;
+            border: 2px solid rgba(108, 96, 96, 0.794);
+            transform: skewY(5deg);
+            border-bottom: 4px solid rgb(165, 192, 32);
+            border-radius: 10px;
+            outline: none;
+        }
+
+        .quanxuan {
+            background-color: rgb(54, 142, 142);
+            color: #fff;
+            width: 100px;
+            height: 25px;
+            outline: none;
+            border: 0;
+            border-radius: 5px;
+        }
+        tr{ 
+            box-sizing: border-box;
+            width: 300px;
+            height: 40px;
+            display: inline-block;
+            background-color: rgb(228, 43, 154);
+            line-height: 40px;
+            border-radius: 15px;
+        }
+        td{ 
+            width: 300px;
+            height: 40px;
+            display: flex;
+            box-sizing: border-box;
+            justify-content: space-between;
+            border-radius: 15px;
+            padding-right:20px;
+            padding-left: 20px;
+        }
+        .del{
+            border: 0;
+            background-color: transparent;
+            outline: none;
         }
     </style>
 </head>
@@ -66,8 +129,8 @@
 
         </table>
         <div class="foot-box">
-            <div class="jiashuqi"><span class="jishu"></span>item left</div>
-            <button class="quanxuan">全选</button>
+            <div class="jiashuqi"><span class="jishu">0</span>item left</div>
+            <div class="delss"><button class="quanxuan">全部删除</button></div>
         </div>
     </div>
 </body>
@@ -76,25 +139,51 @@
     var ipt = document.querySelector('input')
     // 获取添加按钮
     var but = document.querySelector('button')
+    var dels = document.querySelector('.quanxuan')
+
+    dels.onclick = function () {
+        var tab = document.querySelector('table')
+        var jishu = document.querySelector('.jishu')
+        tab.innerHTML = ""
+        jishu.innerHTML = `0`
+    }
     // 给添加按钮添加点击事件
     but.onclick = function () {
         // 获取到要添加的表格 局部变量
         var tab = document.querySelector('table')
         // 定义tr
         var tr = document.createElement('tr')
+        var jishu = document.querySelector('.jishu')
+
         // 将定义好的tr添加到表格中
         tab.appendChild(tr)
         // 更改表格中的内容  超级字符串方法
         tr.innerHTML = `
-                <td><input type="checkbox"></td>
-                <td>${ipt.value}</td>
-                <td><button class="del">删除</button></td>
+                <td><div><input class="checkboxs" type="checkbox"></div> <div>${ipt.value} </div><div><button class="del">X</button></div></td>
         `
         // 定义删除的点击事件
         tab.addEventListener('click', function (e) {
             // 判断class类名是否是del删除 如果是利用事件冒泡删除掉它自己对应的父元素
             if (e.target.className == "del") {
-                tab.removeChild(e.target.parentNode.parentNode)
+                tab.removeChild(e.target.parentNode.parentNode.parentNode)
+                var lengths = document.querySelector('table').rows.length
+                jishu.innerHTML = `${lengths}`
+            }
+        })
+        var lengths = document.querySelector('table').rows.length
+        jishu.innerHTML = `${lengths}`
+
+        tab.addEventListener('click', function (e) {
+            if (e.target.className == "checkboxs") {98
+                e.target.parentNode.parentNode.animate(
+                    {
+                        transform: 'rotateX(360deg)'
+                    },
+                    {
+                        duration: 800,
+                        easing: 'linear'
+                    }
+                )
             }
         })
 
@@ -103,6 +192,7 @@
     ipt.onkeyup = function (e) {
         // 利用事件委托确定是否按下的是回车键
         if (e.keyCode == 13) {
+            var jishu = document.querySelector('.jishu')
             // 获取局部变量表格
             var tab = document.querySelector('table')
             // 定义局部变量tr
@@ -111,20 +201,46 @@
             tab.appendChild(tr)
             // 更改表格中的内容  超级字符串方法
             tr.innerHTML = `
-                <td><input type="checkbox"></td>
-                <td>${ipt.value}</td>
-                <td><button class="del">删除</button></td>
+            <td><div><input class="checkboxs" type="checkbox"></div> <div>${ipt.value} </div><div><button class="del">X</button></div></td>
         `
-        // 定义删除的点击事件
+            // 定义删除的点击事件
             tab.addEventListener('click', function (e) {
-                 // 判断class类名是否是del删除 如果是利用事件冒泡删除掉它自己对应的父元素
+                // 判断class类名是否是del删除 如果是利用事件冒泡删除掉它自己对应的父元素
                 if (e.target.className == "del") {
-                    tab.removeChild(e.target.parentNode.parentNode)
+                    tab.removeChild(e.target.parentNode.parentNode.parentNode)
+                    var lengths = document.querySelector('table').rows.length
+                    jishu.innerHTML = `${lengths}`
+                }
+            })
+            var lengths = document.querySelector('table').rows.length
+            jishu.innerHTML = `${lengths}`
+            tab.addEventListener('click', function (e) {
+                console.log(123);
+                if (e.target.className == "checkboxs") {
+                    e.target.parentNode.parentNode.parentNode.animate(
+                        {
+                            transform: 'rotateX(180deg)'
+                        },
+                        {
+                            duration: 800,
+                            easing: 'linear'
+                        }
+                    )
+                    e.target.parentNode.parentNode.parentNode.style.backgroundColor='rgb(67, 196, 196)'
+                    e.target.parentNode.parentNode.parentNode.style.color='#fff'
+                    e.target.parentNode.parentNode.animate(
+                        {
+                            transform: 'rotateX(180deg)'
+                        },
+                        {
+                            duration: 800,
+                            easing: 'linear'
+                        }
+                    )
                 }
             })
         }
     };
-
 </script>
 
 </html>
