@@ -175,8 +175,7 @@ export default {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
-      })
-        .then(() => {
+      }).then(() => {
           this.$message({
             type: "success",
             message: "删除成功!",
@@ -189,8 +188,7 @@ export default {
               console.log(res);
             });
           this.usersList();
-        })
-        .catch(() => {
+        }).catch(() => {
           this.$message({
             type: "info",
             message: "已取消删除",
