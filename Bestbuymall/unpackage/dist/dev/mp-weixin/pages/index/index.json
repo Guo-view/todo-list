@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "优购首页",
+  "navigationBarBackgroundColor": "#eb4450",
+  "navigationBarTextStyle": "white",
+  "usingComponents": {
+    "u-button": "../../uni_modules/vk-uview-ui/components/u-button/u-button",
+    "u-swiper": "../../uni_modules/vk-uview-ui/components/u-swiper/u-swiper"
+  }
+}
